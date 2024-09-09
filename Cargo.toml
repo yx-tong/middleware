@@ -1,0 +1,16 @@
+[workspace]
+resolver = "2"
+members = ["projects/*"]
+default-members = [
+    "projects/poem-middleware",
+    "projects/poem-aliyun-oss"
+]
+exclude = [
+    "projects/.DS_Store",
+]
+
+[workspace.dependencies]
+
+[profile.release]
+lto = true
+panic = "abort"
