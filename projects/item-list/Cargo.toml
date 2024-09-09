@@ -1,0 +1,26 @@
+[package]
+name = "item-list"
+version = "0.0.0"
+authors = []
+description = "The identifier with semantic postfix"
+homepage = "https://github.com"
+documentation = "https://docs.rs"
+repository = "https://docs.rs"
+edition = "2021"
+
+[dependencies]
+serde = { version = "1.0.208", optional = true }
+poem-openapi = { version = "5.0.3", optional = true }
+sea-orm = { version = "1.1.0", optional = true }
+serde_json = "1.0.132"
+sqlx = { workspace = true, optional = true, features = ["postgres"] }
+
+
+
+[dev-dependencies]
+tracing-subscriber = "0.3"
+
+
+[features]
+default = []
+

@@ -1,0 +1,19 @@
+[workspace]
+resolver = "2"
+members = ["projects/*"]
+default-members = [
+    "projects/poem-middleware",
+    "projects/poem-aliyun-oss"
+]
+exclude = [
+    "projects/.DS_Store",
+]
+
+
+[profile.release]
+lto = true
+panic = "abort"
+
+[workspace.dependencies.sqlx]
+version = "0.8.2"
+default-features = false
