@@ -1,6 +1,7 @@
 pub mod aliyun_oss;
 mod errors;
 mod getter;
+pub mod helpers;
 mod pager;
 mod request_tracing;
 
