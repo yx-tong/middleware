@@ -27,7 +27,7 @@ pub fn jwt_decode<T: DeserializeOwned>(token: &str, public_key: &[u8]) -> poem::
 }
 pub fn jwt_request<T: DeserializeOwned>(input: &Request, public_key: &[u8]) -> poem::Result<T> {
     match input.header("Authorization") {
-        Some(s) => Ok(jwt_decode(s.trim_start_matches("Bearer "), public_key)),
+        Some(s) => jwt_decode(s.trim_start_matches("Bearer "), public_key),
         None => Err(poem::Error::from_string("非法访问: 缺少 `Authorization`", StatusCode::UNAUTHORIZED)),
     }
 }

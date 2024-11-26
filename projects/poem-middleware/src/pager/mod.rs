@@ -4,13 +4,6 @@ use poem_openapi::{
     registry::{MetaSchema, MetaSchemaRef, Registry},
     types::{IsObjectType, ParseError, ParseFromJSON, ParseFromXML, ToJSON, Type},
 };
-use sea_orm::{
-    sqlx,
-    sqlx::{
-        Decode, Error, FromRow, Postgres, Row,
-        postgres::{PgHasArrayType, PgRow, PgValueRef},
-    },
-};
 use serde_json::Value;
 use std::{any::type_name, borrow::Cow};
 

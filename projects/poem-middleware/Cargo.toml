@@ -44,7 +44,6 @@ version = "*"
 path = "../poem-email"
 features = []
 
-
 [dependencies.semantic-id]
 version = "*"
 path = "../semantic-id"
