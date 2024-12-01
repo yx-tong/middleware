@@ -95,11 +95,14 @@ where
             None => String::new(),
         };
         let path = match event.metadata().file() {
-            Some(s) => Url::from_file_path(s).map(|s| s.to_string()).unwrap_or("Anonymous".to_string()),
-            None => "Anonymous".to_string(),
+            Some(s) => Url::from_file_path(s).map(|s| s.to_string()).ok(),
+            None => None,
         };
         let line = event.metadata().line().unwrap_or(0);
-        println!("[{}{}] at {}:{}", level_style, module, path, line);
+        match path {
+            Some(s) => println!("[{}{}] at {}:{}", level_style, module, s, line),
+            None => println!("[{}{}] at <Anonymous>", level_style, module),
+        }
         event.record(&mut visitor);
     }
 }
