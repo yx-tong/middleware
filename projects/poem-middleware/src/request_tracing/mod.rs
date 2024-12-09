@@ -99,6 +99,12 @@ where
             None => None,
         };
         let line = event.metadata().line().unwrap_or(0);
+        if module.starts_with("hyper") {
+            return;
+        }
+        if module.is_empty() {
+            return;
+        }
         match path {
             Some(s) => println!("[{}{}] at {}:{}", level_style, module, s, line),
             None => println!("[{}{}] at <Anonymous>", level_style, module),

@@ -22,19 +22,19 @@ pub fn jwt_decode<T: DeserializeOwned>(token: &str, public_key: &[u8]) -> poem::
     let key = DecodingKey::from_ec_pem(public_key).expect("非法解密密钥");
     match jsonwebtoken::decode::<T>(&token, &key, &method) {
         Ok(o) => Ok(o.claims),
-        Err(e) => Err(poem::Error::from_string(format!("非法访问: {}", e), StatusCode::UNAUTHORIZED)),
+        Err(e) => Err(poem::Error::from_string(format!("Illegal request: {}", e), StatusCode::UNAUTHORIZED)),
     }
 }
 pub fn jwt_request<T: DeserializeOwned>(input: &Request, public_key: &[u8]) -> poem::Result<T> {
     match input.header("Authorization") {
         Some(s) => jwt_decode(s.trim_start_matches("Bearer "), public_key),
-        None => Err(poem::Error::from_string("非法访问: 缺少 `Authorization`", StatusCode::UNAUTHORIZED)),
+        None => Err(poem::Error::from_string("Illegal request: Missing `Authorization`", StatusCode::UNAUTHORIZED)),
     }
 }
 
 pub fn jwt_time(time: f32) -> poem::Result<u64> {
     match std::time::SystemTime::now().add(Duration::from_secs_f32(time)).duration_since(std::time::UNIX_EPOCH) {
         Ok(o) => Ok(o.as_secs()),
-        Err(_) => Err(poem::Error::from_string("非法时钟".to_string(), StatusCode::CONFLICT)),
+        Err(_) => Err(poem::Error::from_string("Illegal time service center.".to_string(), StatusCode::CONFLICT)),
     }
 }
