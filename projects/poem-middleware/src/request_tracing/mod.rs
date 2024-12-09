@@ -89,22 +89,24 @@ where
             Level::TRACE => Colour::Purple.bold().paint("TRACE"),
         };
         let module = match event.metadata().module_path() {
+            Some(s) if s.starts_with("hyper") => {
+                return;
+            }
+            Some(s) if s.starts_with("poem") => {
+                return;
+            }
             Some(s) => {
                 format!(" {}", Colour::White.dimmed().paint(s))
             }
-            None => String::new(),
+            None => {
+                return;
+            }
         };
         let path = match event.metadata().file() {
             Some(s) => Url::from_file_path(s).map(|s| s.to_string()).ok(),
             None => None,
         };
         let line = event.metadata().line().unwrap_or(0);
-        if module.starts_with("hyper") {
-            return;
-        }
-        if module.is_empty() {
-            return;
-        }
         match path {
             Some(s) => println!("[{}{}] at {}:{}", level_style, module, s, line),
             None => println!("[{}{}] at <Anonymous>", level_style, module),
