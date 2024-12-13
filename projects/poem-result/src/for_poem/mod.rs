@@ -55,6 +55,8 @@ impl<T: Type, E: ApiError + Send + Sync> Type for PoemResult<T, E> {
     fn register(registry: &mut Registry) {
         let mut required = Vec::new();
         required.push("code");
+        required.push("data");
+        required.push("message");
         registry.create_schema::<Self, _>(<Self as Type>::name().into_owned(), |registry| {
             <T as Type>::register(registry);
             let mut meta = MetaSchema {
@@ -103,7 +105,7 @@ impl<T: Type, E: ApiError + Send + Sync> Type for PoemResult<T, E> {
                             }
                             schema
                         };
-                        fields.push(("data", MetaSchemaRef::Reference("object".to_string())));
+                        fields.push(("data", original_schema.merge(patch_schema)));
                     }
                     fields
                 },

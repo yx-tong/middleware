@@ -26,14 +26,14 @@ impl Default for GenerateState16 {
 
 impl GenerateState16 {
     /// Construct the ID: 48 bits timestamp | 8 bits machine ID | 8 bits sequence in 1ms
-    pub fn generate_now(&mut self) -> u64 {
+    pub fn generate64_now(&mut self) -> u64 {
         let timestamp = SystemTime::now() //
             .duration_since(SystemTime::UNIX_EPOCH)
             .expect("Time went backwards")
             .as_millis() as u64;
-        self.generate_by(timestamp)
+        self.generate64_by(timestamp)
     }
-    pub fn generate_by(&mut self, unix: u64) -> u64 {
+    pub fn generate64_by(&mut self, unix: u64) -> u64 {
         let ms = unix << 16; // 32 bit
         // println!("{:016x}", ms);
         let machine_id = (self.machine_id as u64) << 8; // 8bit
