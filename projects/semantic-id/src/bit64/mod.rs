@@ -67,8 +67,28 @@ impl<K: SemanticKey> Display for Semantic64<K> {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match K::KEY {
             "" => write!(f, "{}", self.id),
-            s => write!(f, "{}-{:x}", s, self.id),
+            s => write!(f, "{}-{}", s, base36(self.id)),
         }
+    }
+}
+
+fn base36(mut n: u64) -> String {
+    if n == 0 {
+        return "0".to_string();
+    }
+    const BASE36_CHARS: &[u8] = b"0123456789abcdefghijklmnopqrstuvwxyz";
+    // Never larger than 11 characters
+    let mut result = Vec::with_capacity(11);
+    while n > 0 {
+        let remainder = n as usize % 36;
+        // faster than if
+        result.push(BASE36_CHARS[remainder]);
+        n /= 36;
+    }
+
+    unsafe {
+        result.reverse();
+        String::from_utf8_unchecked(result)
     }
 }
 
@@ -91,7 +111,7 @@ impl<K> FromStr for Semantic64<K> {
         let mut parts = s.rsplit('-');
         match parts.next() {
             Some(s) => {
-                let id = u64::from_str_radix(&s, 16)?;
+                let id = u64::from_str_radix(&s, 36)?;
                 Ok(Self { id, kind: Default::default() })
             }
             None => Ok(Self::default()),

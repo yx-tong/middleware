@@ -91,7 +91,7 @@ impl<K> FromStr for Semantic32<K> {
         let mut parts = s.rsplit('-');
         match parts.next() {
             Some(s) => {
-                let id = u32::from_str_radix(&s, 16)?;
+                let id = u32::from_str_radix(&s, 36)?;
                 Ok(Self { id, kind: Default::default() })
             }
             None => Ok(Self::default()),
