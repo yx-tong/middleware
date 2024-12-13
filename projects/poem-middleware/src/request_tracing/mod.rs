@@ -92,9 +92,6 @@ where
             Some(s) if s.starts_with("hyper") => {
                 return;
             }
-            Some(s) if s.starts_with("poem") => {
-                return;
-            }
             Some(s) => {
                 format!(" {}", Colour::White.dimmed().paint(s))
             }

@@ -47,7 +47,7 @@ features = []
 [dependencies.semantic-id]
 version = "*"
 path = "../semantic-id"
-features = ["sea-orm", "poem-openapi", "sqlx", "serde"]
+features = ["poem-openapi", "sqlx", "serde"]
 
 [dev-dependencies]
 tracing-subscriber = "0.3"
