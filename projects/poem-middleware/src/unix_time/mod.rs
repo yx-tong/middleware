@@ -4,16 +4,13 @@ use poem_openapi::{
     registry::{MetaSchema, MetaSchemaRef, Registry},
     types::{IsObjectType, ParseError, ParseFromJSON, ParseFromXML, ParseFromYAML, ToJSON, ToXML, ToYAML, Type},
 };
-use sea_orm::{
-    sqlx,
-    sqlx::{
-        Database, Decode, Postgres,
-        error::BoxDynError,
-        postgres::{PgTypeInfo, types::Oid},
-        types::chrono::{DateTime, Utc},
-    },
-};
 use serde_json::Value;
+use sqlx::{
+    self, Database, Decode, Postgres,
+    error::BoxDynError,
+    postgres::{PgTypeInfo, types::Oid},
+    types::chrono::{DateTime, Utc},
+};
 use std::{
     borrow::Cow,
     fmt::{Display, Formatter},

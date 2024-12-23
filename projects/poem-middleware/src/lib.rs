@@ -1,13 +1,11 @@
 pub mod aliyun_oss;
 mod errors;
-mod getter;
 pub mod helpers;
 mod pager;
 mod request_tracing;
 mod unix_time;
 
 pub use crate::{
-    getter::SqlBuilder,
     pager::{CountableList, PageCounter, Pager},
     request_tracing::RequestTracing,
     unix_time::UnixTime,
