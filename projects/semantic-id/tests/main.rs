@@ -28,8 +28,8 @@ fn test_display64() {
 fn test_parse64() {
     assert_eq!(Test64::from_str("test-0"), Ok(Test64::from(0u64)));
     assert_eq!(Test64::from_str("test-1"), Ok(Test64::from(1u64)));
-    assert_eq!(Test64::from_str("test-a"), Ok(Test64::from(10u64)));
-    assert_eq!(Test64::from_str("test-2s"), Ok(Test64::from(100u64)));
-    assert_eq!(Test64::from_str("test-rs"), Ok(Test64::from(1000u64)));
-    assert_eq!(Test64::from_str("test-7ps"), Ok(Test64::from(10000u64)));
+    assert_eq!(Test64::from_str("test-A"), Ok(Test64::from(10u64)));
+    assert_eq!(Test64::from_str("test-2S"), Ok(Test64::from(100u64)));
+    assert_eq!(Test64::from_str("test-RS"), Ok(Test64::from(1000u64)));
+    assert_eq!(Test64::from_str("test-7PS"), Ok(Test64::from(10000u64)));
 }
