@@ -7,6 +7,7 @@ use std::{
 
 mod convert;
 mod display;
+mod for_pdf_extract;
 
 /// The result type of this crate.
 pub type YxResult<T> = PoemResult<T, YxError>;
