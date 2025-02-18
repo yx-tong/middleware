@@ -7,6 +7,7 @@ use std::{
 
 mod convert;
 mod display;
+#[cfg(feature = "pdf-extract")]
 mod for_pdf_extract;
 
 /// The result type of this crate.
