@@ -12,11 +12,6 @@ impl From<YxErrorKind> for YxError {
 //         Self { kind: Box::new(YxErrorKind::DatabaseError { message: value.to_string() }) }
 //     }
 // }
-impl From<sqlx::Error> for YxError {
-    fn from(value: sqlx::Error) -> Self {
-        Self { kind: Box::new(YxErrorKind::DatabaseError { message: value.to_string() }) }
-    }
-}
 
 impl From<reqwest::Error> for YxError {
     fn from(value: reqwest::Error) -> Self {
