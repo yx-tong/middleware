@@ -24,15 +24,22 @@ pub struct YxError {
 /// The kind of [YxError].
 #[derive(Debug, Clone)]
 pub enum YxErrorKind {
-    /// An unknown error.
-    UnknownError,
-
     DatabaseError {
         message: String,
     },
     ServiceError {
         message: String,
     },
+    EncodeError {
+        format: String,
+        message: String,
+    },
+    DecodeError {
+        format: String,
+        message: String,
+    },
+    /// An unknown error.
+    UnknownError,
 }
 
 impl ApiError for YxError {
@@ -41,6 +48,8 @@ impl ApiError for YxError {
             YxErrorKind::UnknownError => -1,
             YxErrorKind::DatabaseError { .. } => -100,
             YxErrorKind::ServiceError { .. } => -200,
+            YxErrorKind::EncodeError { .. } => -400,
+            YxErrorKind::DecodeError { .. } => -400,
         }
     }
     fn error_message(&self) -> Cow<str> {
@@ -54,5 +63,11 @@ impl YxError {
     }
     pub fn service_error(message: impl Into<String>) -> YxError {
         YxError { kind: Box::new(YxErrorKind::ServiceError { message: message.into() }) }
+    }
+    pub fn encode_error(message: impl Into<String>) -> YxError {
+        YxError { kind: Box::new(YxErrorKind::EncodeError { format: "".to_string(), message: message.into() }) }
+    }
+    pub fn decode_error(message: impl Into<String>) -> YxError {
+        YxError { kind: Box::new(YxErrorKind::DecodeError { format: "".to_string(), message: message.into() }) }
     }
 }

@@ -26,6 +26,12 @@ impl Display for YxErrorKind {
             YxErrorKind::ServiceError { message } => {
                 write!(f, "{}", message)
             }
+            YxErrorKind::EncodeError { format, message } => {
+                write!(f, "{}: {}", format, message)
+            }
+            YxErrorKind::DecodeError { format, message } => {
+                write!(f, "{}: {}", format, message)
+            }
         }
     }
 }
