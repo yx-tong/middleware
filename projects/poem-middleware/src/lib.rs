@@ -17,7 +17,7 @@ pub use poem_email::{EmailSender, provider::AliyunMailer};
 pub use poem_result::{ApiError, Failure, PoemResult, Success};
 pub use request_tracing::PrintTracing;
 pub use semantic_id::{Semantic64, SemanticKey};
-
-pub mod third_party {
+/// 第三方模块
+pub mod party_3rd {
     pub use poem_email::lettre;
 }
