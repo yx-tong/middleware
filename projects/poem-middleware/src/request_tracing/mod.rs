@@ -1,5 +1,5 @@
 use ansi_term::Colour;
-use poem::{Body, Endpoint, IntoResponse, Middleware, Request, Response};
+use poem::{Endpoint, IntoResponse, Middleware, Request, Response};
 use reqwest::Url;
 use tracing::{
     Callsite, Event, Level, Metadata, Subscriber,
