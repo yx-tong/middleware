@@ -37,12 +37,6 @@ version = "*"
 path = "../item-list"
 features = ["poem-openapi", "sqlx"]
 
-
-[dependencies.poem-aliyun-oss]
-version = "*"
-path = "../poem-aliyun-oss"
-features = []
-
 [dependencies.poem-email]
 version = "*"
 path = "../poem-email"

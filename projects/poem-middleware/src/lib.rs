@@ -1,4 +1,3 @@
-pub mod aliyun_oss;
 mod errors;
 pub mod helpers;
 pub mod identifiers;
