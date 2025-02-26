@@ -2,7 +2,7 @@ use crate::{YxError, identifiers::AttachmentId};
 use chrono::{Datelike, Timelike};
 use poem_openapi::{Object, types::multipart::Upload};
 use std::{
-    hash::{DefaultHasher, Hasher},
+    hash::{DefaultHasher, Hash, Hasher},
     path::Path,
 };
 
