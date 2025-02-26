@@ -2,8 +2,7 @@
 resolver = "2"
 members = ["projects/*"]
 default-members = [
-    "projects/poem-middleware",
-    "projects/poem-aliyun-oss"
+    "projects/poem-middleware"
 ]
 exclude = [
     "projects/.DS_Store",

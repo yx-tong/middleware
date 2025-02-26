@@ -16,6 +16,7 @@ impl<T: Type, E: ApiError + Send + Sync> ApiResponse for PoemResult<T, E> {
             responses: vec![MetaResponse {
                 description: "service ready",
                 status: Some(200),
+                status_range: None,
                 content: vec![MetaMediaType {
                     content_type: "application/json; charset=utf-8",
                     schema: <Self as Type>::schema_ref(),
