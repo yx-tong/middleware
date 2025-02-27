@@ -16,3 +16,9 @@ panic = "abort"
 [workspace.dependencies.sqlx]
 version = "0.8.3"
 default-features = false
+
+[workspace.dependencies.aliyun-sdk]
+version = "1.0.0"
+branch = "dev"
+git = "https://github.com/oovm/aliyun-sdk"
+features = []

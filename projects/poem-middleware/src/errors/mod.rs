@@ -7,6 +7,8 @@ use std::{
 
 mod convert;
 mod display;
+
+mod for_aliyun;
 // #[cfg(feature = "")]
 // mod for_lettre;
 #[cfg(feature = "pdf-extract")]
