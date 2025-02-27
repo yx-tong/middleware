@@ -7,7 +7,8 @@ use std::{
 
 mod convert;
 mod display;
-mod for_lettre;
+// #[cfg(feature = "")]
+// mod for_lettre;
 #[cfg(feature = "pdf-extract")]
 mod for_pdf_extract;
 mod for_sqlx;

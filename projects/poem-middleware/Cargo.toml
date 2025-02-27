@@ -37,11 +37,6 @@ version = "*"
 path = "../item-list"
 features = ["poem-openapi", "sqlx"]
 
-[dependencies.poem-email]
-version = "*"
-path = "../poem-email"
-features = []
-
 [dependencies.semantic-id]
 version = "*"
 path = "../semantic-id"

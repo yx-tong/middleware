@@ -12,11 +12,10 @@ pub use crate::{
     unix_time::UnixTime,
 };
 pub use item_list::ItemList;
-pub use poem_email::{EmailSender, provider::AliyunMailer};
 pub use poem_result::{ApiError, Failure, PoemResult, Success};
 pub use request_tracing::PrintTracing;
 pub use semantic_id::{Semantic64, SemanticKey};
 /// 第三方模块
 pub mod party_3rd {
-    pub use poem_email::lettre;
+    // pub use poem_email::lettre;
 }
