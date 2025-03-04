@@ -57,7 +57,6 @@ impl<T: Type, E: ApiError + Send + Sync> Type for PoemResult<T, E> {
         let mut required = Vec::new();
         required.push("code");
         required.push("data");
-        required.push("message");
         registry.create_schema::<Self, _>(<Self as Type>::name().into_owned(), |registry| {
             <T as Type>::register(registry);
             let mut meta = MetaSchema {
@@ -71,7 +70,7 @@ impl<T: Type, E: ApiError + Send + Sync> Type for PoemResult<T, E> {
                         let patch_schema = {
                             let mut schema = MetaSchema::ANY;
                             schema.default = None;
-                            schema.read_only = false;
+                            schema.read_only = true;
                             schema.write_only = false;
                             if let Some(field_description) = None {
                                 schema.description = Some(field_description);
@@ -84,8 +83,9 @@ impl<T: Type, E: ApiError + Send + Sync> Type for PoemResult<T, E> {
                         let original_schema = <String as Type>::schema_ref();
                         let patch_schema = {
                             let mut schema = MetaSchema::ANY;
+                            schema.ty = "string";
                             schema.default = None;
-                            schema.read_only = false;
+                            schema.read_only = true;
                             schema.write_only = false;
                             if let Some(field_description) = None {
                                 schema.description = Some(field_description);

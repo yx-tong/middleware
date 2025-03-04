@@ -56,7 +56,7 @@ impl<T: Type, E: ApiError + Send + Sync> Type for PoemResult<T, E> {
         let mut required = Vec::new();
         required.push("code");
         required.push("data");
-        required.push("message");
+
         registry.create_schema::<Self, _>(<Self as Type>::name().into_owned(), |registry| {
             <T as Type>::register(registry);
             let mut meta = MetaSchema {
