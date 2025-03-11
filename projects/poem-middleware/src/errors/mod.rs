@@ -1,4 +1,7 @@
+use poem::{IntoResponse, Response, error::ResponseError, http::StatusCode};
+use poem_openapi::types::ToJSON;
 use poem_result::{ApiError, PoemResult};
+use serde::Serialize;
 use std::{
     borrow::Cow,
     error::Error,
@@ -25,7 +28,8 @@ pub struct YxError {
 }
 
 /// The kind of [YxError].
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
+#[serde(tag = "type", content = "message")]
 pub enum YxErrorKind {
     DatabaseError {
         message: String,
@@ -60,6 +64,26 @@ impl ApiError for YxError {
     }
 }
 
+impl ResponseError for YxError {
+    fn status(&self) -> StatusCode {
+        match self.kind.as_ref() {
+            YxErrorKind::DatabaseError { .. } => StatusCode::INTERNAL_SERVER_ERROR,
+            YxErrorKind::ServiceError { .. } => StatusCode::INTERNAL_SERVER_ERROR,
+            YxErrorKind::EncodeError { .. } => StatusCode::INTERNAL_SERVER_ERROR,
+            YxErrorKind::DecodeError { .. } => StatusCode::INTERNAL_SERVER_ERROR,
+            YxErrorKind::UnknownError => StatusCode::INTERNAL_SERVER_ERROR,
+        }
+    }
+    fn as_response(&self) -> Response
+    where
+        Self: Error + Send + Sync + 'static,
+    {
+        match serde_json::to_string(&self.kind) {
+            Ok(s) => Response::builder().body(s).into_response(),
+            Err(s) => Response::builder().body(s.to_string()).into_response(),
+        }
+    }
+}
 impl YxError {
     pub fn database_error(message: impl Into<String>) -> YxError {
         YxError { kind: Box::new(YxErrorKind::DatabaseError { message: message.into() }) }
