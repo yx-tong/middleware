@@ -1,7 +1,7 @@
 use poem::{IntoResponse, Response, error::ResponseError, http::StatusCode};
 use poem_openapi::{
     ApiResponse,
-    registry::{MetaResponse, MetaResponses, Registry},
+    registry::{MetaResponses, Registry},
     types::ToJSON,
 };
 use poem_result::{ApiError, PoemResult};
@@ -90,9 +90,10 @@ impl ResponseError for YxError {
     where
         Self: Error + Send + Sync + 'static,
     {
+        let res = Response::builder().status(self.status());
         match serde_json::to_string(&self.kind) {
-            Ok(s) => Response::builder().body(s).into_response(),
-            Err(s) => Response::builder().body(s.to_string()).into_response(),
+            Ok(s) => res.body(s).into_response(),
+            Err(s) => res.body(s.to_string()).into_response(),
         }
     }
 }
