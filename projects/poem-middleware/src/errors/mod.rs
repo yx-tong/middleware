@@ -33,7 +33,7 @@ pub struct YxError {
 
 /// The kind of [YxError].
 #[derive(Debug, Clone, Serialize)]
-#[serde(tag = "type", content = "message")]
+#[serde(tag = "error")]
 pub enum YxErrorKind {
     DatabaseError {
         message: String,
