@@ -1,5 +1,9 @@
 use poem::{IntoResponse, Response, error::ResponseError, http::StatusCode};
-use poem_openapi::types::ToJSON;
+use poem_openapi::{
+    ApiResponse,
+    registry::{MetaResponse, MetaResponses, Registry},
+    types::ToJSON,
+};
 use poem_result::{ApiError, PoemResult};
 use serde::Serialize;
 use std::{
@@ -62,6 +66,14 @@ impl ApiError for YxError {
     fn error_message(&self) -> Cow<str> {
         Cow::Owned(self.to_string())
     }
+}
+
+impl ApiResponse for YxError {
+    fn meta() -> MetaResponses {
+        MetaResponses { responses: Vec::new() }
+    }
+
+    fn register(_: &mut Registry) {}
 }
 
 impl ResponseError for YxError {
