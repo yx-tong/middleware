@@ -20,13 +20,48 @@ impl<const DEFAULT: u32, const LIMIT: u32> Type for Pager<DEFAULT, LIMIT> {
     type RawValueType = Self;
     type RawElementValueType = Self;
     fn name() -> Cow<'static, str> {
-        Cow::Borrowed("Pager")
+        Cow::Owned(format!("Pager<{}, {}>", DEFAULT, LIMIT))
     }
     fn schema_ref() -> MetaSchemaRef {
-        MetaSchemaRef::Inline(Box::new(Self::meta_schema()))
+        let meta = MetaSchema {
+            description: None,
+            external_docs: None,
+            required: vec!["page", "size"],
+            properties: {
+                let mut fields = Vec::new();
+                {
+                    let original_schema = u32::schema_ref();
+                    let patch_schema = {
+                        let mut schema = MetaSchema::ANY;
+                        schema.default = Some(Value::from(0));
+                        schema.read_only = true;
+                        schema.write_only = false;
+                        schema.description = Some("The current page number");
+                        schema
+                    };
+                    fields.push(("page", original_schema.merge(patch_schema)));
+                }
+                {
+                    let original_schema = <Option<u32> as Type>::schema_ref();
+                    let patch_schema = {
+                        let mut schema = MetaSchema::ANY;
+                        schema.default = Some(Value::from(DEFAULT));
+                        schema.read_only = true;
+                        schema.write_only = false;
+                        schema.description = Some("The number of items per page");
+                        schema
+                    };
+                    fields.push(("size", original_schema.merge(patch_schema)));
+                }
+                fields
+            },
+            deprecated: false,
+            ..MetaSchema::new("object")
+        };
+        MetaSchemaRef::Inline(Box::new(meta))
     }
-    fn register(registry: &mut Registry) {
-        registry.create_schema::<Self, _>("Pager".to_string(), |_| Self::meta_schema())
+    fn register(_: &mut Registry) {
+        // Virtual types do not require registration
     }
     fn as_raw_value(&self) -> Option<&Self::RawValueType> {
         Some(self)
@@ -205,45 +240,5 @@ impl<T: Type + Send + Sync + ParseFromJSON + ToJSON> poem_openapi::types::ParseF
 impl<T: Type + Send + Sync + ParseFromJSON + ToJSON> poem_openapi::types::ToYAML for CountableList<T> {
     fn to_yaml(&self) -> Option<Value> {
         self.to_json()
-    }
-}
-
-impl<const DEFAULT: u32, const LIMIT: u32> Pager<DEFAULT, LIMIT> {
-    fn meta_schema() -> MetaSchema {
-        MetaSchema {
-            description: None,
-            external_docs: None,
-            required: vec!["page", "size"],
-            properties: {
-                let mut fields = Vec::new();
-                {
-                    let original_schema = u32::schema_ref();
-                    let patch_schema = {
-                        let mut schema = MetaSchema::ANY;
-                        schema.default = Some(Value::from(0));
-                        schema.read_only = true;
-                        schema.write_only = false;
-                        schema.description = Some("The current page number");
-                        schema
-                    };
-                    fields.push(("page", original_schema.merge(patch_schema)));
-                }
-                {
-                    let original_schema = <Option<u32> as Type>::schema_ref();
-                    let patch_schema = {
-                        let mut schema = MetaSchema::ANY;
-                        schema.default = Some(Value::from(DEFAULT));
-                        schema.read_only = true;
-                        schema.write_only = false;
-                        schema.description = Some("The number of items per page");
-                        schema
-                    };
-                    fields.push(("size", original_schema.merge(patch_schema)));
-                }
-                fields
-            },
-            deprecated: false,
-            ..MetaSchema::new("object")
-        }
     }
 }
