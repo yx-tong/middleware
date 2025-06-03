@@ -20,9 +20,13 @@ impl<const DEFAULT: u32, const LIMIT: u32> Type for Pager<DEFAULT, LIMIT> {
     type RawValueType = Self;
     type RawElementValueType = Self;
     fn name() -> Cow<'static, str> {
-        Cow::Owned(format!("Pager<{}, {}>", DEFAULT, LIMIT))
+        Cow::Borrowed(type_name::<Self>())
     }
     fn schema_ref() -> MetaSchemaRef {
+        MetaSchemaRef::Reference(type_name::<Self>().to_string())
+    }
+
+    fn register(registry: &mut Registry) {
         let meta = MetaSchema {
             description: None,
             external_docs: None,
@@ -58,10 +62,7 @@ impl<const DEFAULT: u32, const LIMIT: u32> Type for Pager<DEFAULT, LIMIT> {
             deprecated: false,
             ..MetaSchema::new("object")
         };
-        MetaSchemaRef::Inline(Box::new(meta))
-    }
-    fn register(_: &mut Registry) {
-        // Virtual types do not require registration
+        registry.schemas.insert(type_name::<Self>().to_string(), meta);
     }
     fn as_raw_value(&self) -> Option<&Self::RawValueType> {
         Some(self)
