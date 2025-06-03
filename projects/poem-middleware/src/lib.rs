@@ -12,7 +12,6 @@ pub use crate::{
     unix_time::UnixTime,
 };
 pub use item_list::ItemList;
-pub use poem_result::{ApiError, Failure, PoemResult, Success};
 pub use request_tracing::PrintTracing;
 pub use semantic_id::{Semantic64, SemanticKey};
 /// 第三方模块

@@ -1,13 +1,11 @@
 use poem::{IntoResponse, Response, error::ResponseError, http::StatusCode};
 use poem_openapi::{
     ApiResponse,
+    payload::Json,
     registry::{MetaResponses, Registry},
-    types::ToJSON,
 };
-use poem_result::{ApiError, PoemResult};
 use serde::Serialize;
 use std::{
-    borrow::Cow,
     error::Error,
     fmt::{Debug, Display, Formatter},
 };
@@ -23,7 +21,7 @@ mod for_pdf_extract;
 mod for_sqlx;
 
 /// The result type of this crate.
-pub type YxResult<T> = PoemResult<T, YxError>;
+pub type YxResult<T> = Result<Json<T>, YxError>;
 
 /// A boxed error kind, wrapping an [YxErrorKind].
 #[derive(Clone)]
@@ -51,21 +49,6 @@ pub enum YxErrorKind {
     },
     /// An unknown error.
     UnknownError,
-}
-
-impl ApiError for YxError {
-    fn error_code(&self) -> i32 {
-        match self.kind.as_ref() {
-            YxErrorKind::UnknownError => -1,
-            YxErrorKind::DatabaseError { .. } => -100,
-            YxErrorKind::ServiceError { .. } => -200,
-            YxErrorKind::EncodeError { .. } => -400,
-            YxErrorKind::DecodeError { .. } => -400,
-        }
-    }
-    fn error_message(&self) -> Cow<str> {
-        Cow::Owned(self.to_string())
-    }
 }
 
 impl ApiResponse for YxError {

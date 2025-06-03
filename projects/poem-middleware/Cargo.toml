@@ -29,11 +29,6 @@ semantic-id = { version = "0.0.0", features = ["poem-openapi", "sqlx", "serde"] 
 version = "0.8.6"
 features = ["postgres", "chrono"]
 
-[dependencies.poem-result]
-version = "*"
-path = "../poem-result"
-features = ["poem-openapi", "serde_json"]
-
 [dependencies.item-list]
 version = "*"
 path = "../item-list"

@@ -1,10 +1,7 @@
 use jsonwebtoken::{Algorithm, DecodingKey, EncodingKey, Validation};
 use poem::{Request, http::StatusCode};
 use serde::{Serialize, de::DeserializeOwned};
-use std::{
-    ops::Add,
-    time::{Duration, SystemTimeError},
-};
+use std::{ops::Add, time::Duration};
 
 pub fn jwt_encode<T: Serialize>(claims: T, private_key: &[u8]) -> poem::Result<String> {
     let header = jsonwebtoken::Header::new(Algorithm::ES256);
