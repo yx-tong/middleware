@@ -1,4 +1,0 @@
-mod custom_extensions;
-{% for table in schema.values() -%}
-pub mod {{ table.name.to_lowercase() }};
-{% endfor %}
