@@ -30,7 +30,7 @@ impl Display for UnixTime {
 
 impl<'de> Decode<'de, Postgres> for UnixTime {
     fn decode(value: <Postgres as Database>::ValueRef<'de>) -> Result<Self, BoxDynError> {
-        Ok(Self { time: NaiveDateTime::decode(value)? })
+        Ok(Self { time: Decode::<Postgres>::decode(value)? })
     }
 }
 
